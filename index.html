@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Progresso — Livv</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFEFB;
+    --ink: #1C1917;
+    --ink-light: #44403C;
+    --ink-muted: #78716C;
+    --green: #0A7E6E;
+    --green-light: #E8F5F2;
+    --green-mid: #B8DDD7;
+    --gold: #C9963A;
+    --gold-light: #FDF3E3;
+    --border: #E7E2DA;
+    --shadow: rgba(28,25,23,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .report-header {
+    background: var(--green);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-texture {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(255,255,255,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 40%);
+  }
+
+  .header-inner {
+    position: relative;
+    z-index: 1;
+    padding: 48px 40px 40px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .collective-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin-bottom: 32px;
+  }
+
+  .collective-badge svg {
+    width: 16px; height: 16px;
+  }
+
+  .collective-badge span {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header-meta {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .student-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 10vw, 80px);
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .student-subtitle {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 40px;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 28px;
+  }
+
+  .stat {
+    flex: 1;
+    padding-right: 24px;
+  }
+
+  .stat + .stat {
+    padding-left: 24px;
+    border-left: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-section {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 40px 0;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .progress-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .skill-bars { flex: 1; }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .skill-row:last-child { margin-bottom: 0; }
+
+  .skill-name {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-light);
+    width: 140px;
+    flex-shrink: 0;
+  }
+
+  .skill-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--green);
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .skill-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 10px;
+    width: 108px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .tag-l1 { background: #FEF3F2; color: #B42318; }
+  .tag-l2 { background: #FEF9EE; color: #B54708; }
+  .tag-l3 { background: var(--gold-light); color: var(--gold); }
+  .tag-l4 { background: var(--green-light); color: var(--green); }
+
+  /* Level pip track */
+  .level-track {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex: 1;
+  }
+
+  .level-pip {
+    height: 8px;
+    flex: 1;
+    border-radius: 4px;
+    background: var(--border);
+    transition: background 0.8s ease;
+  }
+
+  .level-pip.filled-l1 { background: #F97066; }
+  .level-pip.filled-l2 { background: #F79009; }
+  .level-pip.filled-l3 { background: var(--gold); }
+  .level-pip.filled-l4 { background: var(--green); }
+
+  .overall-badge {
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .overall-badge-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .overall-badge-label {
+    font-size: 9px;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Strand groups */
+  .strand-group {
+    margin-bottom: 18px;
+  }
+
+  .strand-group-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  .section-body {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--ink-light);
+    font-weight: 300;
+  }
+
+  .section-body p + p {
+    margin-top: 16px;
+  }
+
+  .highlight {
+    font-style: italic;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* ── EVIDENCE CARDS ── */
+  .evidence-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-light);
+    border: 1px solid var(--green-mid);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    vertical-align: middle;
+    margin: 0 2px;
+  }
+
+  .evidence-trigger:hover {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+  }
+
+  .evidence-trigger svg {
+    width: 12px; height: 12px;
+  }
+
+  /* Evidence modal overlay */
+  .evidence-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(28,25,23,0.6);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    backdrop-filter: blur(4px);
+  }
+
+  .evidence-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .evidence-card {
+    background: var(--warm-white);
+    border-radius: 20px;
+    max-width: 520px;
+    width: 100%;
+    overflow: hidden;
+    transform: scale(0.95) translateY(12px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  }
+
+  .evidence-overlay.open .evidence-card {
+    transform: scale(1) translateY(0);
+  }
+
+  .evidence-thumb {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, #0A7E6E 0%, #2B5F8F 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .evidence-thumb-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05) 0%, transparent 40%);
+  }
+
+  .play-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .play-btn:hover { transform: scale(1.08); }
+
+  .play-btn svg { 
+    width: 20px; height: 20px; 
+    fill: var(--green);
+    margin-left: 3px;
+  }
+
+  .evidence-thumb-label {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 1;
+  }
+
+  .evidence-thumb-label .date {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .evidence-thumb-label .title {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .evidence-body {
+    padding: 24px;
+  }
+
+  .evidence-context {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .evidence-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--ink-light);
+    line-height: 1.6;
+    border-left: 3px solid var(--green-mid);
+    padding-left: 16px;
+    margin-bottom: 20px;
+  }
+
+  .evidence-close {
+    width: 100%;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .evidence-close:hover { background: var(--ink-light); }
+
+  /* ── NEXT STEPS ── */
+  .next-steps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .next-step-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+
+  .next-step-card.school { border-top: 3px solid var(--green); }
+  .next-step-card.home { border-top: 3px solid var(--gold); }
+
+  .next-step-card-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .school .next-step-card-title { color: var(--green); }
+  .home .next-step-card-title { color: var(--gold); }
+
+  .step-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  .step-item:last-child { margin-bottom: 0; }
+
+  .step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .school .step-dot { background: var(--green); }
+  .home .step-dot { background: var(--gold); }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-collective {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .footer-collective strong {
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .footer-teacher {
+    text-align: right;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .footer-teacher strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .overview-layout {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+  }
+
+  .overview-layout .section-body {
+    flex: 1;
+  }
+
+  .student-photo-wrap {
+    flex-shrink: 0;
+    width: 148px;
+    text-align: center;
+  }
+
+  .student-photo {
+    width: 148px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+    box-shadow: 0 4px 16px var(--shadow);
+    border: 3px solid var(--warm-white);
+    outline: 1px solid var(--border);
+  }
+
+  .student-photo-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 8px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 500px) {
+    .overview-layout { flex-direction: column-reverse; }
+    .student-photo-wrap { width: 100%; }
+    .student-photo { width: 100%; height: 200px; }
+  }
+
+  /* ── DIVIDER ── */
+  .ornament {
+    text-align: center;
+    color: var(--green-mid);
+    font-size: 20px;
+    margin: 40px 0;
+    letter-spacing: 8px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .header-inner, .content { padding-left: 24px; padding-right: 24px; }
+    .next-steps-grid { grid-template-columns: 1fr; }
+    .progress-section { flex-direction: column; }
+    .header-stats { flex-wrap: wrap; gap: 20px; }
+    .stat + .stat { border-left: none; padding-left: 0; }
+    .report-footer { flex-direction: column; gap: 16px; text-align: center; }
+    .footer-teacher { text-align: center; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header-inner > * {
+    animation: fadeUp 0.6s ease both;
+  }
+  .header-inner > *:nth-child(1) { animation-delay: 0.1s; }
+  .header-inner > *:nth-child(2) { animation-delay: 0.2s; }
+  .header-inner > *:nth-child(3) { animation-delay: 0.3s; }
+  .header-inner > *:nth-child(4) { animation-delay: 0.4s; }
+  .header-inner > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="report-header">
+  <div class="header-texture"></div>
+  <div class="header-inner">
+
+    <div class="collective-badge">
+      <svg viewBox="0 0 16 16" fill="none">
+        <circle cx="4" cy="12" r="2" fill="white" opacity="0.6"/>
+        <circle cx="8" cy="8" r="2.5" fill="white"/>
+        <circle cx="12" cy="4" r="2" fill="white" opacity="0.6"/>
+        <path d="M4 12 Q6 10 8 8 Q10 6 12 4" stroke="white" stroke-width="1" opacity="0.4"/>
+      </svg>
+      <span>The Collective</span>
+    </div>
+
+    <div class="header-meta">Relatório de Progresso · 2º Semestre 2025</div>
+
+    <h1 class="student-name">Livv</h1>
+    <p class="student-subtitle">Turma G2 · Teacher Ana · Inglês como Segunda Língua</p>
+
+    <div class="header-stats">
+      <div class="stat">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Semanas observadas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">18</div>
+        <div class="stat-label">Momentos registados</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Evidências em destaque</div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+  <!-- PROGRESS OVERVIEW -->
+  <div class="progress-section section">
+    <div class="skill-bars">
+      <div class="progress-label">Perfil de competências · Escala 1–4</div>
+
+      <div class="strand-group">
+        <div class="strand-group-label">Expressão oral (Speaking)</div>
+        <div class="skill-row">
+          <span class="skill-name">Conversação espontânea <span style="font-size:10px;color:var(--ink-muted)">SP01/02</span></span>
+          <div class="level-track" data-level="3" data-class="l3"></div>
+          <span class="skill-tag tag-l3">Nível 3 – Em desenvolvimento</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Rotinas em inglês <span style="font-size:10px;color:var(--ink-muted)">SP03</span></span>
+          <div class="level-track" data-level="4" data-class="l4"></div>
+          <span class="skill-tag tag-l4">Nível 4 – Proficiente</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Perguntas espontâneas <span style="font-size:10px;color:var(--ink-muted)">SP05</span></span>
+          <div class="level-track" data-level="1" data-class="l1"></div>
+          <span class="skill-tag tag-l1">Nível 1 – Inicial</span>
+        </div>
+      </div>
+
+      <div class="strand-group">
+        <div class="strand-group-label">Compreensão oral (Listening)</div>
+        <div class="skill-row">
+          <span class="skill-name">Escuta em rotinas <span style="font-size:10px;color:var(--ink-muted)">LI02/03</span></span>
+          <div class="level-track" data-level="4" data-class="l4"></div>
+          <span class="skill-tag tag-l4">Nível 4 – Proficiente</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Escuta em conversação <span style="font-size:10px;color:var(--ink-muted)">LI03</span></span>
+          <div class="level-track" data-level="2" data-class="l2"></div>
+          <span class="skill-tag tag-l2">Nível 2 – Emergente</span>
+        </div>
+      </div>
+
+      <div class="strand-group" style="margin-bottom:0">
+        <div class="strand-group-label">Atitude e participação</div>
+        <div class="skill-row">
+          <span class="skill-name">Atenção sustentada <span style="font-size:10px;color:var(--ink-muted)">AT01</span></span>
+          <div class="level-track" data-level="3" data-class="l3"></div>
+          <span class="skill-tag tag-l3">Nível 3 – Em desenvolvimento</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Cooperação <span style="font-size:10px;color:var(--ink-muted)">AT02</span></span>
+          <div class="level-track" data-level="4" data-class="l4"></div>
+          <span class="skill-tag tag-l4">Nível 4 – Proficiente</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Curiosidade / motivação <span style="font-size:10px;color:var(--ink-muted)">AT03</span></span>
+          <div class="level-track" data-level="3" data-class="l3"></div>
+          <span class="skill-tag tag-l3">Nível 3 – Em desenvolvimento</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Iniciativa <span style="font-size:10px;color:var(--ink-muted)">AT04</span></span>
+          <div class="level-track" data-level="4" data-class="l4"></div>
+          <span class="skill-tag tag-l4">Nível 4 – Proficiente</span>
+        </div>
+      </div>
+    </div>
+    <div class="overall-badge">
+      <div class="overall-badge-value">Nível 3</div>
+      <div class="overall-badge-label">Em desenvolvimento</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: OVERVIEW -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-number">1</div>
+      <h2 class="section-title">Visão geral do semestre</h2>
+    </div>
+    <div class="overview-layout">
+      <div class="section-body">
+        <p>A Livv demonstrou um progresso <span class="highlight">consistente e positivo</span> em inglês ao longo deste semestre. É uma integrante cuidadosa e responsável do grupo, assumindo frequentemente papéis de liderança com confiança — especialmente durante as rotinas diárias da sala de aula.</p>
+        <p>O seu perfil este semestre é o de uma aluna <span class="highlight">proficiente e segura em contextos estruturados de inglês</span> e em desenvolvimento em conversações mais espontâneas. Raramente apresenta dificuldades em compreender o que acontece na aula e demonstra iniciativa e responsabilidade quando lidera etapas da rotina.</p>
+      </div>
+      <div class="student-photo-wrap">
+        <div class="student-photo-placeholder">
+          <svg viewBox="0 0 148 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:148px;height:180px;display:block;border-radius:14px;">
+            <rect width="148" height="180" rx="14" fill="url(#photoGrad)"/>
+            <!-- subtle pattern -->
+            <circle cx="20" cy="20" r="40" fill="rgba(255,255,255,0.06)"/>
+            <circle cx="128" cy="160" r="50" fill="rgba(255,255,255,0.05)"/>
+            <!-- figure: body -->
+            <ellipse cx="74" cy="148" rx="38" ry="22" fill="rgba(255,255,255,0.18)"/>
+            <rect x="52" y="108" width="44" height="44" rx="22" fill="rgba(255,255,255,0.22)"/>
+            <!-- figure: head -->
+            <circle cx="74" cy="88" r="26" fill="rgba(255,255,255,0.28)"/>
+            <!-- figure: hair suggestion -->
+            <ellipse cx="74" cy="65" rx="24" ry="10" fill="rgba(255,255,255,0.18)"/>
+            <!-- camera icon bottom right -->
+            <rect x="108" y="148" width="28" height="22" rx="6" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+            <circle cx="122" cy="159" r="5" fill="rgba(255,255,255,0.3)"/>
+            <rect x="112" y="151" width="5" height="3" rx="1" fill="rgba(255,255,255,0.3)"/>
+            <!-- label -->
+            <text x="74" y="172" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" fill="rgba(255,255,255,0.5)" letter-spacing="0.05em">ADICIONAR FOTO</text>
+            <defs>
+              <linearGradient id="photoGrad" x1="0" y1="0" x2="148" y2="180" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0A7E6E"/>
+                <stop offset="100%" stop-color="#2B5F8F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="student-photo-label">Livv · Turma G2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament">· · ·</div>
+
+  <!-- SECTION 2: ROTINAS -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-number">2</div>
+      <h2 class="section-title">Rotinas em inglês</h2>
+    </div>
+    <div class="section-body">
+      <p>Nas rotinas — cumprimentos, data, tempo, agenda visual — a Livv já utiliza o inglês de forma <span class="highlight">natural e com facilidade</span>. É capaz de conduzir a turma pelas etapas da data e do tempo, fazendo perguntas como <em>"What's the date?"</em>, <em>"What's the weather?"</em> e <em>"What's the temperature?"</em>, ouvindo as respostas dos colegas e escrevendo a informação no quadro.</p>
+      <p>Reconhece as imagens da rotina e nomeia-as em inglês. Isto demonstra uma sólida compreensão da linguagem de sala de aula, boas capacidades de escuta e crescente autonomia.</p>
+      <p style="margin-top: 20px;">
+        <a class="evidence-trigger" onclick="openEvidence('routines')">
+          <svg viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><polygon points="4.5,3.5 9,6 4.5,8.5" fill="currentColor"/></svg>
+          Ver evidência · 06/11/2025
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: CHAT TIME -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-number">3</div>
+      <h2 class="section-title">Momentos de conversação</h2>
+    </div>
+    <div class="section-body">
+      <p>Em momentos mais abertos e conversacionais como o <em>Chat Time</em>, a Livv também está a fazer bons progressos. No início destas atividades, responde em inglês, reage aos estímulos e mostra interesse no tema. A sua compreensão é boa e consegue exprimir as suas ideias usando o inglês que já aprendeu.</p>
+      <p>Por vezes — especialmente quando quer dizer algo mais detalhado, ou quando fica cansada ou distraída — pode passar ao português ou tornar-se mais silenciosa, ouvindo mais do que fala. <span class="highlight">Este padrão é muito típico de uma criança multilingue na sua fase</span>: a sua compreensão está frequentemente à frente da sua capacidade de continuar a falar em inglês durante períodos mais longos.</p>
+      <p style="margin-top: 20px;">
+        <a class="evidence-trigger" onclick="openEvidence('chattime')">
+          <svg viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><polygon points="4.5,3.5 9,6 4.5,8.5" fill="currentColor"/></svg>
+          Ver evidência · 06/11/2025
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="ornament">· · ·</div>
+
+  <!-- SECTION 4: NEXT STEPS -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-number">4</div>
+      <h2 class="section-title">Próximos passos</h2>
+    </div>
+
+    <div class="next-steps-grid">
+      <div class="next-step-card school">
+        <div class="next-step-card-title">Na escola</div>
+        <div class="step-item">
+          <div class="step-dot"></div>
+          <span>Continuar a dar à Livv oportunidades regulares de liderar as rotinas, para que possa usar o seu inglês forte em papéis com significado.</span>
+        </div>
+        <div class="step-item">
+          <div class="step-dot"></div>
+          <span>Encorajá-la a fazer pelo menos uma pergunta simples em inglês durante o <em>Chat Time</em> — por exemplo, <em>"And you?"</em> ou <em>"What about you?"</em></span>
+        </div>
+        <div class="step-item">
+          <div class="step-dot"></div>
+          <span>Apoiá-la a manter-se envolvida por mais tempo nas conversações, usando temas do seu interesse e turnos de fala curtos.</span>
+        </div>
+      </div>
+
+      <div class="next-step-card home">
+        <div class="next-step-card-title">Em casa</div>
+        <div class="step-item">
+          <div class="step-dot"></div>
+          <span>Pedir-lhe que ensine parte da nossa rotina em inglês — deixá-la ser a "professora" e fazer-lhe perguntas como <em>"What's the weather today?"</em></span>
+        </div>
+        <div class="step-item">
+          <div class="step-dot"></div>
+          <span>Valorizar qualquer tentativa de usar inglês, mesmo que misture inglês e português na mesma frase.</span>
+        </div>
+        <div class="step-item">
+          <div class="step-dot"></div>
+          <span>Falar positivamente sobre o inglês como <em>"a nossa outra língua"</em>, para reforçar a sua confiança e motivação.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="report-footer">
+  <div class="footer-collective">
+    Gerado por <strong>The Collective</strong><br>
+    <span style="font-size:11px;">Sistema de documentação pedagógica · 2025</span>
+  </div>
+  <div class="footer-teacher">
+    <strong>Teacher Ana</strong>
+    Turma G2 · 2º Semestre 2025
+  </div>
+</footer>
+
+<!-- EVIDENCE OVERLAYS -->
+<div class="evidence-overlay" id="overlay" onclick="closeEvidence(event)">
+  <div class="evidence-card" id="evidence-card">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<script>
+  const evidenceData = {
+    routines: {
+      title: 'Observação — Rotinas',
+      date: '06 de novembro de 2025',
+      context: 'Momento de liderança · Rotina diária',
+      quote: 'A Livv conduziu toda a sequência da data sozinha hoje — perguntou ao grupo, esperou pelas respostas e escreveu no quadro sem precisar de ajuda. Depois ainda corrigiu gentilmente um colega que disse o mês errado.',
+    },
+    chattime: {
+      title: 'Observação — Chat Time',
+      date: '06 de novembro de 2025',
+      context: 'Conversa espontânea · Tema: animais',
+      quote: 'A Livv começou muito bem em inglês, partilhou a história do cão dela. Quando quis contar um detalhe mais complicado sobre o veterinário, passou para português. É completamente esperado nesta fase — a sua compreensão está claramente à frente da produção.',
+    }
+  };
+
+  function openEvidence(key) {
+    const d = evidenceData[key];
+    document.getElementById('evidence-card').innerHTML = `
+      <div class="evidence-thumb">
+        <div class="evidence-thumb-pattern"></div>
+        <div class="play-btn">
+          <svg viewBox="0 0 20 20"><polygon points="4,2 18,10 4,18"/></svg>
+        </div>
+        <div class="evidence-thumb-label">
+          <div class="date">${d.date}</div>
+          <div class="title">${d.title}</div>
+        </div>
+      </div>
+      <div class="evidence-body">
+        <div class="evidence-context">${d.context}</div>
+        <div class="evidence-quote">"${d.quote}"</div>
+        <button class="evidence-close" onclick="closeEvidence()">Fechar</button>
+      </div>
+    `;
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEvidence(e) {
+    if (!e || e.target === document.getElementById('overlay')) {
+      document.getElementById('overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Scroll-triggered section reveals
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  sections.forEach(s => observer.observe(s));
+
+  // Build and animate level pip tracks
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.level-track').forEach(track => {
+      const level = parseInt(track.dataset.level);
+      const cls = track.dataset.class;
+      for (let i = 1; i <= 4; i++) {
+        const pip = document.createElement('div');
+        pip.className = 'level-pip';
+        track.appendChild(pip);
+        if (i <= level) {
+          setTimeout(() => pip.classList.add(`filled-${cls}`), 600 + i * 120);
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
