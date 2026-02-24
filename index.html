@@ -803,33 +803,7 @@
         <p>O seu perfil este semestre é o de uma aluna <span class="highlight">proficiente e segura em contextos estruturados de inglês</span> e em desenvolvimento em conversações mais espontâneas. Raramente apresenta dificuldades em compreender o que acontece na aula e demonstra iniciativa e responsabilidade quando lidera etapas da rotina.</p>
       </div>
       <div class="student-photo-wrap">
-        <div class="student-photo-placeholder">
-          <svg viewBox="0 0 148 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:148px;height:180px;display:block;border-radius:14px;">
-            <rect width="148" height="180" rx="14" fill="url(#photoGrad)"/>
-            <!-- subtle pattern -->
-            <circle cx="20" cy="20" r="40" fill="rgba(255,255,255,0.06)"/>
-            <circle cx="128" cy="160" r="50" fill="rgba(255,255,255,0.05)"/>
-            <!-- figure: body -->
-            <ellipse cx="74" cy="148" rx="38" ry="22" fill="rgba(255,255,255,0.18)"/>
-            <rect x="52" y="108" width="44" height="44" rx="22" fill="rgba(255,255,255,0.22)"/>
-            <!-- figure: head -->
-            <circle cx="74" cy="88" r="26" fill="rgba(255,255,255,0.28)"/>
-            <!-- figure: hair suggestion -->
-            <ellipse cx="74" cy="65" rx="24" ry="10" fill="rgba(255,255,255,0.18)"/>
-            <!-- camera icon bottom right -->
-            <rect x="108" y="148" width="28" height="22" rx="6" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-            <circle cx="122" cy="159" r="5" fill="rgba(255,255,255,0.3)"/>
-            <rect x="112" y="151" width="5" height="3" rx="1" fill="rgba(255,255,255,0.3)"/>
-            <!-- label -->
-            <text x="74" y="172" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" fill="rgba(255,255,255,0.5)" letter-spacing="0.05em">ADICIONAR FOTO</text>
-            <defs>
-              <linearGradient id="photoGrad" x1="0" y1="0" x2="148" y2="180" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#0A7E6E"/>
-                <stop offset="100%" stop-color="#2B5F8F"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
+        <img src="./livv-photo.png" alt="Livv" class="student-photo" />
         <div class="student-photo-label">Livv · Turma G2</div>
       </div>
     </div>
@@ -945,27 +919,22 @@
       date: '06 de novembro de 2025',
       context: 'Momento de liderança · Rotina diária',
       quote: 'A Livv conduziu toda a sequência da data sozinha hoje — perguntou ao grupo, esperou pelas respostas e escreveu no quadro sem precisar de ajuda. Depois ainda corrigiu gentilmente um colega que disse o mês errado.',
+      video: './livv-weatherroutine.MP4'
     },
     chattime: {
       title: 'Observação — Chat Time',
       date: '06 de novembro de 2025',
       context: 'Conversa espontânea · Tema: animais',
       quote: 'A Livv começou muito bem em inglês, partilhou a história do cão dela. Quando quis contar um detalhe mais complicado sobre o veterinário, passou para português. É completamente esperado nesta fase — a sua compreensão está claramente à frente da produção.',
+      video: './livv-chattime.MP4'
     }
   };
 
   function openEvidence(key) {
     const d = evidenceData[key];
     document.getElementById('evidence-card').innerHTML = `
-      <div class="evidence-thumb">
-        <div class="evidence-thumb-pattern"></div>
-        <div class="play-btn">
-          <svg viewBox="0 0 20 20"><polygon points="4,2 18,10 4,18"/></svg>
-        </div>
-        <div class="evidence-thumb-label">
-          <div class="date">${d.date}</div>
-          <div class="title">${d.title}</div>
-        </div>
+      <div class="evidence-thumb" style="background:#000;padding:0;height:auto;">
+        <video src="${d.video}" controls playsinline style="width:100%;max-height:260px;display:block;border-radius:20px 20px 0 0;"></video>
       </div>
       <div class="evidence-body">
         <div class="evidence-context">${d.context}</div>
